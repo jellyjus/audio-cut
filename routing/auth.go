@@ -78,6 +78,7 @@ func setAccessToken(c echo.Context) error {
 	cookie := new(http.Cookie)
 	cookie.Name = tokenCookie
 	cookie.Value = token
+	cookie.MaxAge = jwtClaims.ExpiresIn
 	c.SetCookie(cookie)
 
 	return c.Redirect(http.StatusTemporaryRedirect, "/")
