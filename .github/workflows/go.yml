@@ -8,11 +8,10 @@ on:
 
 jobs:
 
-  build:
+  build-server:
     name: Build
     runs-on: ubuntu-latest
     steps:
-
     - name: Set up Go 1.x
       uses: actions/setup-go@v2
       with:
@@ -28,17 +27,22 @@ jobs:
 
     - name: Build
       run: go build -v .
+      
   build-frontend:
     name: Build frontend
     runs-on: ubuntu-latest
     steps:
-      
       - name: Setup Node.js environment
         uses: actions/setup-node@v2.1.0
         with:
           node-version: '10.x'
       - run: cd frontend && npm install && npm run build
-    
+  
+  deploy:
+    name: Deploy to server
+    needs: [build-frontend,build-server]
+    runs-on: ubuntu-latest
+    steps:
       - name: SCP Files
         uses: appleboy/scp-action@v0.0.1
         with:
