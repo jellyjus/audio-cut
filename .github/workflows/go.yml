@@ -18,7 +18,7 @@ jobs:
         go-version: ^1.13
       id: go
 
-    - name: Check out code into the Go module directory
+    - name: Check out code into build directory
       uses: actions/checkout@v2
 
     - name: Get dependencies
@@ -36,8 +36,10 @@ jobs:
         uses: actions/setup-node@v2.1.0
         with:
           node-version: '10.x'
-      - run: ls -la 
-      - run: ls -la ..
+      
+      - name: Check out code into build directory
+        uses: actions/checkout@v2
+      
       - run: cd frontend && npm install && npm run build  
         
   
