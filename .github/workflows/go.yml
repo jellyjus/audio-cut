@@ -36,7 +36,7 @@ jobs:
         uses: actions/setup-node@v2.1.0
         with:
           node-version: '10.x'
-      - run: cd frontend && npm install && npm run build
+      - run: ls -la & cd frontend && npm install && npm run build
   
   deploy:
     name: Deploy to server
