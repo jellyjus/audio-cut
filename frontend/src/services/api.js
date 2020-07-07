@@ -19,7 +19,11 @@ export default {
     install(Vue, store, router) {
         Vue.prototype.$api = {
             async login() {
-                return get('/login')
+                const res = await get('/login');
+                if (res.need_redirect)
+                    return window.location.replace(res.redirect_url);
+
+                return res
             }
         };
     }

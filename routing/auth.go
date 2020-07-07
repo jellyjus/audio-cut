@@ -3,13 +3,14 @@ package routing
 import (
 	"encoding/json"
 	"github.com/dgrijalva/jwt-go"
+	"github.com/jellyjus/audio-cut/config"
 	"github.com/labstack/echo/v4"
 	"net/http"
 	"net/url"
 )
 
-const authRedirectURL = "https://oauth.vk.com/authorize?client_id=7526254&redirect_uri=http://localhost:3000/set_access_token&scope=audio&response_type=code&v=5.118"
-const getAccessTokenURL = "https://oauth.vk.com/access_token?client_id=7526254&client_secret=ZSggAUt4jp6rS9Akcmbh&redirect_uri=http://localhost:3000/set_access_token"
+const authRedirectURL = "https://oauth.vk.com/authorize?client_id=7526254&scope=audio&response_type=code&v=5.118"
+const getAccessTokenURL = "https://oauth.vk.com/access_token?client_id=7526254&client_secret=ZSggAUt4jp6rS9Akcmbh"
 const tokenCookie = "token"
 const secret = "PutinIdet"
 
@@ -20,10 +21,19 @@ type JWTClaims struct {
 	jwt.StandardClaims
 }
 
+type redirect struct {
+	NeedRedirect bool   `json:"need_redirect"`
+	RedirectURL  string `json:"redirect_url"`
+}
+
 func login(c echo.Context) error {
 	cookie, err := c.Cookie(tokenCookie)
 	if err != nil {
-		return c.Redirect(http.StatusTemporaryRedirect, authRedirectURL)
+		u, _ := url.Parse(authRedirectURL)
+		q := u.Query()
+		q.Set("redirect_uri", config.Config.Vk.RedirectURI)
+		u.RawQuery = q.Encode()
+		return c.JSON(http.StatusOK, redirect{true, u.String()})
 	}
 
 	token, _ := jwt.ParseWithClaims(cookie.Value, &JWTClaims{}, nil)
@@ -50,6 +60,7 @@ func setAccessToken(c echo.Context) error {
 	u, _ := url.Parse(getAccessTokenURL)
 	q := u.Query()
 	q.Set("code", code)
+	q.Set("redirect_uri", config.Config.Vk.RedirectURI)
 	u.RawQuery = q.Encode()
 
 	res, err := http.Get(u.String())
@@ -69,5 +80,5 @@ func setAccessToken(c echo.Context) error {
 	cookie.Value = token
 	c.SetCookie(cookie)
 
-	return c.Redirect(http.StatusTemporaryRedirect, "")
+	return c.Redirect(http.StatusTemporaryRedirect, "/")
 }

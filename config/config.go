@@ -18,6 +18,7 @@ type vk struct {
 	SecretKey   string `json:"secret_key"`
 	ServiceKey  string `json:"service_key"`
 	AccessToken string `json:"access_token"`
+	RedirectURI string `json:"redirect_uri"`
 }
 
 var Config = config{}
