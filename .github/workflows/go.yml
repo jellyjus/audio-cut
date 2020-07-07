@@ -37,6 +37,7 @@ jobs:
         with:
           node-version: '10.x'
       - run: ls -la 
+      - run: ls -la ..
       - run: cd frontend && npm install && npm run build  
         
   
