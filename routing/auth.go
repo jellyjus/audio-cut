@@ -69,5 +69,5 @@ func setAccessToken(c echo.Context) error {
 	cookie.Value = token
 	c.SetCookie(cookie)
 
-	return c.Redirect(http.StatusTemporaryRedirect, "/login")
+	return c.Redirect(http.StatusTemporaryRedirect, "")
 }

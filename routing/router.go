@@ -20,6 +20,9 @@ func InitRoutes(e *echo.Echo) {
 
 	r.GET("/get_audios", getAudios)
 	r.POST("/upload_audio", uploadAudio)
+
+	e.Static("/static", "frontend/dist")
+	e.File("/*", fmt.Sprintf("%s/index.html", "frontend/dist"))
 }
 
 func getUser(c echo.Context) *JWTClaims {
