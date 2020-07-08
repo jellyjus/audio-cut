@@ -32,8 +32,10 @@ jobs:
         with:
           node-version: '10.x'
       
-      - run: ls -la
-      - run: cd frontend && npm install && npm run build
+      - run: > 
+          if git diff HEAD~ --name-only|grep frontend; then
+            cd frontend && npm install && npm run build
+          fi;
         
       - name: SCP Files
         uses: appleboy/scp-action@master
