@@ -32,7 +32,7 @@ func login(c echo.Context) error {
 	if err != nil {
 		u, _ := url.Parse(authRedirectURL)
 		q := u.Query()
-		q.Set("redirect_uri", fmt.Sprintf("http://%s%s", c.Request().Host, config.Config.Vk.RedirectURI))
+		q.Set("redirect_uri", getRedirectURI(c))
 		u.RawQuery = q.Encode()
 		return c.JSON(http.StatusOK, redirect{true, u.String()})
 	}
@@ -48,6 +48,10 @@ func login(c echo.Context) error {
 	return c.JSON(http.StatusOK, claims)
 }
 
+func getRedirectURI(c echo.Context) string {
+	return fmt.Sprintf("http://%s%s", c.Request().Host, config.Config.Vk.RedirectPath)
+}
+
 func setAccessToken(c echo.Context) error {
 	if c.QueryParam("error") != "" {
 		return echo.NewHTTPError(http.StatusInternalServerError, c.QueryParam("error_description"))
@@ -61,7 +65,7 @@ func setAccessToken(c echo.Context) error {
 	u, _ := url.Parse(getAccessTokenURL)
 	q := u.Query()
 	q.Set("code", code)
-	q.Set("redirect_uri", config.Config.Vk.RedirectURI)
+	q.Set("redirect_uri", getRedirectURI(c))
 	u.RawQuery = q.Encode()
 
 	res, err := http.Get(u.String())

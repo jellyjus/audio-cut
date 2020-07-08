@@ -14,11 +14,11 @@ type config struct {
 }
 
 type vk struct {
-	AppID       string `json:"app_id"`
-	SecretKey   string `json:"secret_key"`
-	ServiceKey  string `json:"service_key"`
-	AccessToken string `json:"access_token"`
-	RedirectURI string `json:"redirect_uri"`
+	AppID        string `json:"app_id"`
+	SecretKey    string `json:"secret_key"`
+	ServiceKey   string `json:"service_key"`
+	AccessToken  string `json:"access_token"`
+	RedirectPath string `json:"redirect_path"`
 }
 
 var Config = config{}
