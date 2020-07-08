@@ -2,6 +2,7 @@ package routing
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/jellyjus/audio-cut/config"
 	"github.com/labstack/echo/v4"
@@ -31,7 +32,7 @@ func login(c echo.Context) error {
 	if err != nil {
 		u, _ := url.Parse(authRedirectURL)
 		q := u.Query()
-		q.Set("redirect_uri", config.Config.Vk.RedirectURI)
+		q.Set("redirect_uri", fmt.Sprintf("http://%s%s", c.Request().Host, config.Config.Vk.RedirectURI))
 		u.RawQuery = q.Encode()
 		return c.JSON(http.StatusOK, redirect{true, u.String()})
 	}
