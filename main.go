@@ -5,6 +5,7 @@ import (
 	"github.com/jellyjus/audio-cut/routing"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
+	"net/http"
 	"os"
 )
 
@@ -27,7 +28,12 @@ func main() {
 	e := echo.New()
 	//e.Use(middleware.Recover())
 
-	e.Use(middleware.CORS())
+	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+		Skipper:          middleware.DefaultSkipper,
+		AllowOrigins:     []string{"*"},
+		AllowCredentials: true,
+		AllowMethods:     []string{http.MethodGet, http.MethodHead, http.MethodPut, http.MethodPatch, http.MethodPost, http.MethodDelete, http.MethodOptions},
+	}))
 	routing.InitRoutes(e)
 
 	e.Logger.Fatal(e.Start(":" + port))

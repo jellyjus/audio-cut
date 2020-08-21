@@ -1,0 +1,53 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap');
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #e9faff;
+    width: 100vw;
+    height: 100vh;
+    font-family: 'Open Sans', sans-serif;
+    color: #3d3d3d;
+}
+
+.card {
+    padding: 20px;
+    border-radius: 5px 5px 2px 2px;
+    background-color: hsla(0, 0%, 100%, .9);
+    box-shadow: 0 1px 3px 0 rgba(21,27,38,.15);
+}
+
+.title {
+    font-size: 30px;
+    text-align: center;
+}
+
+.list {
+    overflow-y: auto;
+    list-style: none;
+    transition: .3s;
+    flex-grow: 1;
+    padding: 0;
+    margin: 0;
+}
+
+.selected {
+    background-color: rgba(210, 224, 226, 0.26);
+}
+
+.list-item {
+    padding: 8px;
+    margin: 5px 0;
+    border-radius: 5px;
+}
+
+.list-item i {
+    font-size: 20px;
+    color: #606266;
+    transition: color .15s linear;
+}
+
+.list-item:hover {
+    cursor: pointer;
+    background-color: rgba(226, 238, 241, 0.26);
+}

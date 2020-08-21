@@ -1,15 +1,17 @@
 const baseURL = process.env.NODE_ENV === 'development' ?
-    'http://localhost:3000' :
-    location.origin;
+    'http://localhost:3000/api' :
+    `${location.origin}/api`;
 
 const getBody = {
     method: 'get',
+    credentials: 'include',
     headers: {
         "Content-type": "application/json; charset=utf-8"
     }
 };
 const postBody = {
     method: 'post',
+    credentials: 'include',
     headers: {
         "Content-type": "application/json; charset=utf-8"
     }
@@ -24,6 +26,9 @@ export default {
                     return window.location.replace(res.redirect_url);
 
                 return res
+            },
+            async getAudios() {
+                return get('/get_audios', )
             }
         };
     }
@@ -51,7 +56,7 @@ async function _send(url, body) {
     }
 
     if (!res.ok)
-        throw new Error(`${url.pathname} завершился со статусом ${res.status}. ${data.error ? data.error.message : data}`);
+        throw new Error(`${url.pathname} завершился со статусом ${res.status}. ${data.message}`);
     return data
 }
 
