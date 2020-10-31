@@ -1,12 +1,16 @@
 <template>
   <div id="app">
-    <router-view/>
+    <Wafeform/>
+<!--    <router-view/>-->
   </div>
 </template>
 
 <script>
+
+  import Wafeform from "./components/Wafeform";
   export default {
     name: "App",
+    components: {Wafeform},
     async created() {
         // const res = await this.$api.login();
         // console.log(res)

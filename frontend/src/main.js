@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Element from 'element-ui'
+import VueKonva from 'vue-konva'
 import App from './App.vue'
 import router from './router'
 import store from './store'
@@ -9,6 +10,7 @@ import './index.css';
 
 Vue.config.productionTip = false
 Vue.use(Element)
+Vue.use(VueKonva)
 Vue.use(api);
 
 Vue.config.errorHandler = function (err, vm, info) {
